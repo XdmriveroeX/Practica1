@@ -9,10 +9,22 @@ typedef struct IndexNode {
 
 #define TABLE_SIZE 1160
 
+/**
+ * Hash function that takes the sourceid as input and returns the hashed value.
+ */
+
 int hash_function(int sourceid) {
     return sourceid % TABLE_SIZE;
 }
 
+
+/**
+ * Reads the CSV file and creates an index file based on the sourceid.
+ * The index file will be used to speed up searches in the CSV file.
+ *
+ * @param csv_filename: The name of the input CSV file.
+ * @param index_filename: The name of the output index file.
+ */
 
 void create_indexed_file(const char *csv_filename, const char *index_filename) {
     FILE *csv_file = fopen(csv_filename, "r");
@@ -28,11 +40,14 @@ void create_indexed_file(const char *csv_filename, const char *index_filename) {
         return;
     }
 
+    // Allocate memory for the hash table
     IndexNode **hash_table = (IndexNode **)calloc(TABLE_SIZE, sizeof(IndexNode *));
 
     char line[256];
     long position = ftell(csv_file);
     fgets(line, sizeof(line), csv_file); // Skip header line
+
+    // Read the CSV file line by line and add entries to the hash table
 
     while (fgets(line, sizeof(line), csv_file)) {
         int sourceid;
@@ -44,22 +59,20 @@ void create_indexed_file(const char *csv_filename, const char *index_filename) {
         node->next = hash_table[index];
         hash_table[index] = node;
 
-        //printf("Saving line: %s", line); // Debug message
-        
-
         position = ftell(csv_file);
     }
+
+    // Write the hash table to the index file
 
     for (int i = 0; i < TABLE_SIZE; i++) {
         IndexNode *current = hash_table[i];
         while (current != NULL) {
-            //printf("Saving index %d, position %ld\n", i, current->position); // Debug message
-
             fwrite(&i, sizeof(int), 1, index_file);
             fwrite(&current->position, sizeof(long), 1, index_file);
             current = current->next;
         }
     }
+    // Close files
 
     fclose(index_file);
     fclose(csv_file);
@@ -77,6 +90,9 @@ void create_indexed_file(const char *csv_filename, const char *index_filename) {
 }
 
 
+/**
+ * Main function that calls create_indexed_file to create an index file.
+ */
 
 int main() {
     create_indexed_file("uber_movement.csv", "index_file.bin");

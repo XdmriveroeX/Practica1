@@ -1,13 +1,12 @@
 # Practica1
 
-Integrantes del grupo:
+Group members:
 
 dmriveroe-dramirezroc-dyaluzan
 
-pasos para correr el programa:
+Steps to run the program:
 
-1. Tener el archivo con los datos "uber_movement.csv" en la carpeta Practica1.
-2. Correr el makefile con el comando: make
-3. Correr el programa create_indexed_file para generar el archivo binario: ./create_indexed_file
-4. lanzar el programa principal con el comando: ./p1-odProgram.c
-5. Al salir el menu, seleccionar la opciones e ingresar los datos para ejecturar la busqueda del tiempo medio. 
+1. Have the data file "uber_movement.csv" in the Practica1 folder.
+2. Run the makefile with the command: make
+3. Launch the main program with the command: ./p1-odProgram
+4. After the menu appears, select the options (1-3) and enter the data to execute the search for the average traavel time.

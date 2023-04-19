@@ -18,7 +18,6 @@ int main() {
         execute_create_indexed_file();
     }
 
-    int child_status;
     pid_t pid1 = fork();
 
     if (pid1 == 0) {
@@ -48,6 +47,8 @@ int main() {
 
 // Function implementations
 
+// Executes the interface program in a child process
+
 void execute_interface() {
     char *args[] = {"./interface", NULL};
     if (execvp(args[0], args) == -1) {
@@ -55,6 +56,8 @@ void execute_interface() {
         exit(1);
     }
 }
+
+// Executes the searcher program in a child process
 
 void execute_searcher() {
     char *args[] = {"./searcher", NULL};
@@ -64,11 +67,15 @@ void execute_searcher() {
     }
 }
 
+// Waits for both child processes (interface and searcher) to finish
+
 void wait_for_children(pid_t pid1, pid_t pid2) {
     int child_status;
     waitpid(pid1, &child_status, 0);
     waitpid(pid2, &child_status, 0);
 }
+
+// Executes the create_indexed_file program in a child process and waits for it to finish
 
 void execute_create_indexed_file() {
     pid_t pid = fork();

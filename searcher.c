@@ -59,9 +59,14 @@ int main() {
     return 0;
 }
 
+// Hash function for sourceid, used to find the index entry
+
+
 int hash_function(int sourceid) {
     return sourceid % TABLE_SIZE;
 }
+
+// Load index entry for a specific sourceid from the index file
 
 IndexNode *load_index_entry(const char *index_filename, int sourceid) {
     FILE *index_file = fopen(index_filename, "rb");
@@ -91,6 +96,8 @@ IndexNode *load_index_entry(const char *index_filename, int sourceid) {
     fclose(index_file);
     return head;
 }
+
+// Search mean travel time for a specific sourceid, dstid and hod from the CSV file
 
 float search_mean_travel_time(const char *csv_filename, const char *index_filename, int sourceid, int dstid, int hod, double *elapsed_time) {
     clock_t start_time = clock();
@@ -138,6 +145,7 @@ float search_mean_travel_time(const char *csv_filename, const char *index_filena
     *elapsed_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
     return mean_travel_time;
 }
+// Initialize shared memory segment and attach it to the process
 
 int initialize_shared_memory(key_t key, int *shmid, SharedMemoryData **shared_data) {
     *shmid = shmget(key, sizeof(SharedMemoryData), 0666 | IPC_CREAT);
@@ -156,6 +164,8 @@ int initialize_shared_memory(key_t key, int *shmid, SharedMemoryData **shared_da
     (*shared_data)->ready = 0;
     return 0;
 }
+
+// Detach and remove the shared memory segment
 
 int detach_and_remove_shared_memory(int shmid, SharedMemoryData *shared_data) {
     if (shmdt(shared_data) == -1) {

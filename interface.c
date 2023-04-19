@@ -79,6 +79,8 @@ exit_loop:
     return 0;
 }
 
+// Prints the menu options for the user
+
 void print_menu() {
     printf("Bienvenido\n");
     printf("1. Ingresar origen\n");
@@ -88,12 +90,16 @@ void print_menu() {
     printf("5. Salir\n");
 }
 
+// Initializes shared memory data with default values
+
 void initialize_shared_data(SharedMemoryData *shared_data) {
     shared_data->sourceid = -1;
     shared_data->dstid = -1;
     shared_data->hod = -1;
     shared_data->ready = 0;
 }
+
+// Detaches the shared memory segment
 
 int detach_shared_memory(SharedMemoryData *shared_data) {
     if (shmdt(shared_data) == -1) {
