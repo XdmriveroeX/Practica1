@@ -60,7 +60,10 @@ int main() {
                 shared_data->ready = 1;
                 while (shared_data->ready == 1);
 
-                printf("Tiempo de viaje medio: %.1f\n", shared_data->mean_travel_time);
+                if (shared_data->mean_travel_time >= 0){
+                    printf("Tiempo de viaje medio: %.1f\n", shared_data->mean_travel_time);
+                } else printf("Tiempo de Viaje medio: N/A\n");
+                
                 break;
             case 5:
                 initialize_shared_data(shared_data);
