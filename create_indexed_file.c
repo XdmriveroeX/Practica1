@@ -9,9 +9,8 @@ typedef struct IndexNode {
 
 #define TABLE_SIZE 1160
 
-/**
- * Hash function that takes the sourceid as input and returns the hashed value.
- */
+//Hash function that takes the sourceid as input and returns the hashed value.
+ 
 
 int hash_function(int sourceid) {
     return sourceid % TABLE_SIZE;
@@ -21,9 +20,6 @@ int hash_function(int sourceid) {
 /**
  * Reads the CSV file and creates an index file based on the sourceid.
  * The index file will be used to speed up searches in the CSV file.
- *
- * @param csv_filename: The name of the input CSV file.
- * @param index_filename: The name of the output index file.
  */
 
 void create_indexed_file(const char *csv_filename, const char *index_filename) {
